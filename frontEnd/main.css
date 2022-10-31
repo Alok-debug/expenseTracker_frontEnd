@@ -12,11 +12,12 @@ header{
 
 main{
     min-height: 60vh;
-    width: 60vw;
+    width: 65vw;
     margin:auto;
 }
 
 #sign__up{
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -82,4 +83,17 @@ main{
 
 .notification h4 span{
     color:rgb(235, 33, 33);
+}
+
+a{
+    text-decoration: none;
+    background: lightgray;
+    border: none;
+    padding: 0.7rem;
+}
+
+.sign__up{
+    display: flex;
+    align-items: flex-end;
+
 }

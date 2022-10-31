@@ -16,7 +16,9 @@ app.use(cors());
 
 app.use('/user',authRoutes);
 
-sequelize.sync()
+sequelize
+// .sync({force:true})
+.sync()
 .then(()=>{
     app.listen(5000)
 })
