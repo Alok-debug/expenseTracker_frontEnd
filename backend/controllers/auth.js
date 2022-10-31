@@ -9,8 +9,9 @@ exports.register=(req,res,next)=>{
         User.findAll({where:{email:email}})
         .then(users=>{
             const user=users[0]
-            if(user)
-            res.json({success:false,message:'User Already exist. Please Login'})
+            if (user) {
+                res.json({ success: false, message: 'User Already exist. Please Login' })
+            }
             else
             {   
                 User.create({
