@@ -1,0 +1,66 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    background: rebeccapurple;
+    min-height: 5rem;
+    margin-bottom: 2rem;
+
+}
+
+main{
+    min-height: 60vh;
+    width: 60vw;
+    margin:auto;
+}
+
+#sign__up{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+#form__registration{
+    display: flex;
+    flex-direction: column;
+    min-height: 90%;
+    padding: 3rem;
+    border: none;
+    border-radius: 10%;
+    background-color: lightgray;
+}
+
+#form__registration input{
+    font-size: 1.8rem;
+    border: none;
+
+
+}
+
+.form__components{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+#form__submitbtn{
+    align-self: center;
+    padding: 0.8rem;
+    width: 12rem;
+    background: rebeccapurple;
+    border: none;
+    border-radius: 10%;
+    margin-top: 2rem;
+    color: white;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+
+#form__submitbtn:hover{
+    background-color: green;
+    color: black;
+}
