@@ -35,7 +35,7 @@ exports.register = (req, res, next) => {
                         phone: phone
                     })
                         .then(() => {
-                            res.status(200).json({ success: true, message: 'Congratulations!! You have signes up successfully' })
+                            res.status(200).json({ success: true, message: 'Congratulations!! You have signed up successfully' })
                         })
                         .catch(err => {
                             console.log(err)
