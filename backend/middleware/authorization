@@ -13,7 +13,7 @@ const authorization= (req,res,next)=>{
         const response=jwt.verify(token,`${process.env.TOKEN_SECRET}`)
         User.findOne({where:{id:response.id}})
         .then(user=>{
-            req.user=user
+            req.user=user // <-------attaching authorised users in request object, which is global object 
             next()
         })
         .catch(err=>{

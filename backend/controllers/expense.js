@@ -25,8 +25,8 @@ exports.getExpense=(req,res,next)=>{
 }
 
 exports.deleteExpense=(req,res,next)=>{
-    const id=req.params.expenseId;
-    req.user.getExpenses({where:{id:id}})
+    const expId=req.params.expenseId;
+    req.user.getExpenses({where:{id:expId}})
     .then((expenses)=>{
         const expense=expenses[0]
         expense.destroy()

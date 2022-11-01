@@ -1,6 +1,7 @@
-const dotenv=require('dotenv')
-dotenv.config()
-const express=require('express')
+const dotenv = require('dotenv');
+
+dotenv.config();
+const express = require('express');
 
 const bodyParser=require('body-parser')
 
@@ -27,7 +28,8 @@ Expense.belongsTo(User);
 app.use('/user',authRoutes);
 app.use(expenseRoutes)
 
-sequelize.sync()
+sequelize
+    .sync({force:true})
 .then(()=>{
     app.listen(5000)
 })
