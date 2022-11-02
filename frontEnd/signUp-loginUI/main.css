@@ -3,6 +3,13 @@
     padding: 0;
 }
 
+a{
+    text-decoration: none;
+    background: lightgray;
+    border: none;
+    padding: 0.7rem;
+}
+
 header{
     background:lightgreen;
     min-height: 5rem;
@@ -14,6 +21,28 @@ main{
     min-height: 60vh;
     width: 65vw;
     margin:auto;
+}
+
+#nav__header{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 1.4rem;
+}
+
+.nav__tagName{
+    margin: 0 58% 0 5%;
+    
+}
+
+.nav__options{
+    margin-left:5% ;
+}
+
+.nav__options a{
+    background: none;
+    font-size: 1.4rem;
+
 }
 
 #sign__up{
@@ -85,12 +114,7 @@ main{
     color:rgb(235, 33, 33);
 }
 
-a{
-    text-decoration: none;
-    background: lightgray;
-    border: none;
-    padding: 0.7rem;
-}
+
 
 .sign__up{
     display: flex;
