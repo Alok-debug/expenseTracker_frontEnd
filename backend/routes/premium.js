@@ -11,4 +11,4 @@ router.post('/premium/create/order', authorization, premiumController.premiumOrd
 router.post('/transaction/detail', authorization, premiumController.updateTransactionDetails);
 
 
-module.exports=router
+module.exports = router;

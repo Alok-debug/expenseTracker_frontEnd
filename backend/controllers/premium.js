@@ -8,19 +8,23 @@ exports.premiumOrderGeneration=(req, res, next)=>{
         key_id:`rzp_test_9nESyac7Y4IPwX`,
         key_secret:'uUuGXOnV2dzRzl6x9T77fn3D'
     })
+
     var options = {
       amount: req.body.amount,  // amount in the smallest currency unit
       currency: "INR",
       receipt: "order_rcptid_11"
     };
-    instance.orders.create(options,(err, order)=>{
-        if(err){
+
+    instance.orders.create(options, (err, order) => {
+        if (err) {
             console.log(err)
         }
-      else  
-      res.status(201).json({order})
-    })
+        else {
+            res.status(201).json({ order })
+        }
+    })       
 }
+
 
 exports.updateTransactionDetails=(req,res,next)=>{
     req.user.update({isPremium:true})

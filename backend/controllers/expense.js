@@ -34,7 +34,7 @@ exports.addExpense = (req, res, next) =>{
 // }
 
 exports.getExpenses = (req, res, next) => {
-    console.log('get reuest recieved!');
+    //console.log('get reuest recieved!');
     req.user.getExpenses()
     .then(expenses=>{
         res.status(200).json({success:true,expenses:expenses})
