@@ -51,7 +51,7 @@ input,select{
 .li_items{
     border: solid 2px lightgreen;
     font-size: 1.2em;
-    margin: 2%;
+    margin:1rem;
 }
 
 #show__details{
@@ -79,3 +79,10 @@ input[type=submit]:hover {
     align-items: center;
 }
 
+#notification__Container{
+    width: 20vw;
+    max-height: 10vh;
+    position: fixed;
+    right: 10px;
+    bottom: 50px;
+}

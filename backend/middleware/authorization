@@ -3,16 +3,18 @@ const { json } = require('express/lib/response');
 const jwt=require('jsonwebtoken')
 const User=require('../models/user')
 
-const authorization= (req,res,next)=>{
+const authorization = (req, res, next) => {
+    //console.log('req.header: ',req.header);
     const authHeader=req.header('authorization');
     const token=authHeader.split(' ')[1];
-    console.log(token)
+    //console.log(token);
     if(!token)
     return res.status(401).json({success:false,message:"Token not found in header"})
     try {
         const response=jwt.verify(token,`${process.env.TOKEN_SECRET}`)
         User.findOne({where:{id:response.id}})
-        .then(user=>{
+            .then(user => {
+            //console.log("Authorised!!!!");
             req.user=user // <-------attaching authorised users in request object, which is global object 
             next()
         })

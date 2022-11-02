@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const path = require('path');
 
 dotenv.config();
 
@@ -36,7 +37,7 @@ app.use(premiumRoutes)
 
 sequelize.sync()
 .then(()=>{
-    app.listen(5000)
+    app.listen(5000, ()=>{console.log('server running on port: 5000')})
 })
 .catch(err=>{
     console.log(err)

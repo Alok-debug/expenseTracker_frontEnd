@@ -8,8 +8,12 @@ const router=express.Router()
 
 router.post('/addExpense', authorization, expenseController.addExpense);
 
-router.get('/getExpenses', authorization, expenseController.getExpense);
+router.get('/getExpenses', authorization, expenseController.getExpenses);
 
 router.post('/deleteExpense/:expenseId', authorization, expenseController.deleteExpense);
+
+//router.get('/getExpense/:expenseId', authorization, expenseController.getExpense);
+
+//router.put('/updateExpense/:expenseId', authorization, expenseController.updateExpense);
 
 module.exports = router;

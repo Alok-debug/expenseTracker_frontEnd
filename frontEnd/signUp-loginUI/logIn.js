@@ -8,7 +8,7 @@ function notifyUser(message) {
   container.appendChild(notification);
   setTimeout(() => {
     notification.remove();
-  }, 5500);
+  }, 1500);
 }
 
 form.addEventListener('submit',(e)=>{
@@ -23,8 +23,10 @@ form.addEventListener('submit',(e)=>{
     email.value=''
     password.value=''
     axios.post('http://localhost:5000/user/login',obj)
-    .then(res=>{
-        localStorage.setItem('token',`${res.data.token}`)
+      .then(res => {
+        notifyUser(res.data.message);
+        console.log(res);
+        localStorage.setItem('token', `${res.data.token}`);
         if(res.data.isPremium)
         window.location.href='../PremiumUsersUI/premium.html';
         else
