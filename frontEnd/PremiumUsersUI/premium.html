@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker</title>
-    <link rel="stylesheet" href="homepage.css">
-    <link rel="stylesheet" href="signUp-loginUI/main.css">
+    <link rel="stylesheet" href="premium.css">
+    <link rel="stylesheet" href="../signUp-loginUI/main.css">
 </head>
 <body>
     <header>
@@ -39,6 +39,7 @@
   <hr>
   <input type="submit" id="getExpense" value="Get Expenses">
 </div>
+
   <div id="notificationContainer">
     <!-- notification container -->
   </div>
@@ -46,18 +47,14 @@
 
   </div>
 
-  <input type="submit" id="premium" value="Buy Premium">
-  <div class="popup-container" id="popup-container">
-    <div class="popup">
-        <button id="close">&times;</button>
-        <h1>Expense Tracker Premium</h1>
-        <p>Buy at INR 499 only</p>
-        <input type="submit" id="pay" value="Pay Now" style="display: none;" >
-    </div>
-  </div>
+  <section class="toggle-container">
+    <input type="checkbox" id="toggle" name="toggle" /><label
+        for="toggle"
+    ></label>
+  </section>
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script src="./index.js"></script>
+    <script src="./premium.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
 </body>
 </html>

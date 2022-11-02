@@ -23,10 +23,12 @@ form.addEventListener('submit',(e)=>{
     email.value=''
     password.value=''
     axios.post('http://localhost:5000/user/login',obj)
-      .then(res => {
-        notifyUser(res.data.message);
+    .then(res=>{
         localStorage.setItem('token',`${res.data.token}`)
-        window.location.href = "http://127.0.0.1:5500/frontEnd/index.html";
+        if(res.data.isPremium)
+        window.location.href='../PremiumUsersUI/premium.html';
+        else
+        window.location.href='../index.html';
     })
     .catch(err=>{
         console.log(err)
