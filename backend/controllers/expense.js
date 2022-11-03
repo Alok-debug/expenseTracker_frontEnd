@@ -1,4 +1,33 @@
-const Expense=require('../models/expense')
+const Expense = require('../models/expense');
+const query = require('express/lib/middleware/query');
+const UserServices = require('../services/userServices');
+const S3Services = require('../services/s3Services');
+
+exports.downloadExpense=async (req,res,next)=>{
+    try {
+        const expenses=await UserServices.getExpenses(req);
+        const userId=req.user.id
+        const stringified=JSON.stringify(expenses)
+        const fileName=`expenses${userId}/${new Date()}`
+        const downloadLink=await S3Services.uploadToS3(fileName,stringified)
+        await req.user.createDownload({fileName:`${new Date()}`,link:`${downloadLink}`})
+        res.status(200).json({success:true,fileUrl:downloadLink})
+    } catch (error) {
+        res.status(500).json({success:false,error})
+    }
+}
+
+exports.previousDownload=(req,res,next)=>{
+    req.user.getDownloads()
+    .then(downloads=>{
+        res.status(200).json({success:true,links:downloads})
+    })
+    .catch(err=>{
+        console.log(err)
+        res.status(500).json({success:false,error:err})
+    })
+}
+
 
 exports.addExpense = (req, res, next) =>{
     const expenseAmt = req.body.expenseAmt;

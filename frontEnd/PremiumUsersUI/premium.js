@@ -1,3 +1,4 @@
+
 //enables dark theme by default
 document.body.classList.toggle("dark")
 
@@ -7,6 +8,12 @@ const toggle = document.getElementById("toggle");
 toggle.addEventListener("change", (e) => {
     document.body.classList.toggle("dark", e.target.unchecked);
 });
+
+const logout=document.getElementById('logout')
+logout.addEventListener('click',()=>{
+    window.location.href='../signUp-logInUI/login.html'
+    localStorage.removeItem('token')
+})
 
 function notifyUser(message){
     const notificationContainer = document.getElementById('notificationContainer');
@@ -48,42 +55,125 @@ form.addEventListener('submit',(e)=>{
 //display expense
 const getExpense=document.getElementById('getExpense')
 getExpense.addEventListener('click',()=>{
+    displayExpenses('all')
+})
+const dailyBtn=document.getElementById('daily')
+dailyBtn.addEventListener('click',()=>{
+    displayExpenses('daily')
+})
+const weeklyBtn=document.getElementById('weekly')
+weeklyBtn.addEventListener('click',()=>{
+    displayExpenses('weekly')
+})
+const monthlyBtn=document.getElementById('monthly')
+monthlyBtn.addEventListener('click',()=>{
+    displayExpenses('monthly')
+})
+
+//displaying expense
+function displayExpenses(limit){
     const displayContainer=document.getElementById('displayContainer')
     displayContainer.innerHTML=''
-    axios.get('http://localhost:5000/getExpenses',{headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}})
+    axios.get(`http://localhost:5000/getExpenses?limit=${limit}`,{headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}})
     .then(response=>{
-        const ul=document.createElement('ul')
+        console.log(response.data.expenses)
+        const table=document.createElement('table')
+        table.setAttribute('class','styled-table')
+        const thead=document.createElement('thead')
+        const tbody=document.createElement('tbody')
+        const tfoot=document.createElement('tfoot')
+        let total=0;
+        thead.innerHTML=`
+            <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th></th>
+            </tr>
+        `
         response.data.expenses.forEach(expense=>{
-            const li=document.createElement('li')
-            li.setAttribute('id',`e${expense.id}`)
-            li.innerHTML=`
-                <span> ${expense.amount} :  </span>
-                <span> ${expense.category} :  </span>
-                <span> ${expense.description}   </span>
-                <span> <button id="dltbtn" style="color:red;border-radius:5px;">Delete</button> </span>
+            const row=document.createElement('tr')
+            row.setAttribute('id',`e${expense.id}`)
+            row.innerHTML=`
+                <td>${expense.createdAt.substring(0,10)}</td>
+                <td>${expense.amount}</td>
+                <td>${expense.category}</td>
+                <td>${expense.description}</td>
+                <td><button id="dltbtn" style="color:red;border-radius:5px;padding:3px;">Delete</button></td>
             `
-            ul.appendChild(li)
-
+            total+=parseInt(`${expense.amount}`)
+            tbody.appendChild(row);
         })
-        displayContainer.appendChild(ul)
+        tfoot.innerHTML=`
+                <tr>
+                <td>Total</td>
+                <td>${total}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                </tr>
+            `
+        table.appendChild(thead)
+        table.appendChild(tbody)
+        table.appendChild(tfoot)
+        displayContainer.appendChild(table)
+
     })
     .catch(err=>{
         console.log(err)
     })
-})
+}
 
 
 //delete expense
 const displayContainer=document.getElementById('displayContainer')
 displayContainer.addEventListener('click',(e)=>{
     if(e.target.id=='dltbtn'){
-        const liId=e.target.parentNode.parentNode.id.substring(1);
-        const li=e.target.parentNode.parentNode
-        axios.post(`http://localhost:5000/deleteExpense/${liId}`,{},{headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}})
+        const trId=e.target.parentNode.parentNode.id.substring(1);
+        const tr=e.target.parentNode.parentNode
+        axios.post(`http://localhost:5000/deleteExpense/${trId}`,{},{headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}})
         .then((res)=>{
-            li.remove()
+            tr.remove()
             notifyUser(res.data.message)
         })
         .catch(err=>{console.log(err)})
     }
+})
+
+//download Expense
+const downloadBtn=document.getElementById('download')
+downloadBtn.addEventListener('click',()=>{
+    axios.get('http://localhost:5000/download',{headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}})
+    .then(response=>{
+        const link=document.createElement('a');
+        link.href=`${response.data.fileUrl}`;
+        link.download='MyExpenses.csv'
+        link.click();
+    })
+    .catch((err)=>{
+        console.log(err)
+        document.innerHTML+=`<div>${err}</div>`
+    })
+})
+
+document.addEventListener('DOMContentLoaded',()=>{
+    const previousDownloadDiv=document.getElementById('previousDownload')
+    axios.get('http://localhost:5000/previousdownloads',{headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}})
+    .then(response=>{
+        previousDownloadDiv.innerHTML='';
+        let heading=document.createElement('h2');
+        heading.innerHTML='Previous Downloads'
+        previousDownloadDiv.appendChild(heading)
+        const ul=document.createElement('ul')
+        response.data.links.reverse().forEach(link=>{
+            const li=document.createElement('li')
+            li.innerHTML=`<a href="${link.link}">${link.fileName}</a>`
+            ul.appendChild(li)
+        })
+        previousDownloadDiv.appendChild(ul)
+    })
+    .catch(err=>{
+        console.log(err)
+    })
 })

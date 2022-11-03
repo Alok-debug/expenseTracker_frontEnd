@@ -12,6 +12,11 @@ router.get('/getExpenses', authorization, expenseController.getExpenses);
 
 router.post('/deleteExpense/:expenseId', authorization, expenseController.deleteExpense);
 
+router.get('/download', authorization, expenseController.downloadExpense);
+
+router.get('/previousdownloads', authorization, expenseController.previousDownload);
+
+
 //router.get('/getExpense/:expenseId', authorization, expenseController.getExpense);
 
 //router.put('/updateExpense/:expenseId', authorization, expenseController.updateExpense);

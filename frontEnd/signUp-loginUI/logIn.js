@@ -27,11 +27,11 @@ form.addEventListener('submit',(e)=>{
         notifyUser(res.data.message);
         //console.log(res);
         localStorage.setItem('token', `${res.data.token}`);
-          if (res.data.isPremium) {
+          if (res.data.isPremium==1) {
               window.location.href = '../PremiumUsersUI/premium.html';
           }
           else {
-              window.location.href = '../index.html';
+              window.location.href = '../non-premiumUsersUI/index.html';
           }
     })
         .catch(err => {
