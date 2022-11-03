@@ -19,7 +19,7 @@ const authorization = (req, res, next) => {
             next()
         })
         .catch(err=>{
-            throw new Error(err)
+            console.log(err)
         })
 
     } catch (err) {
