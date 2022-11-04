@@ -70,7 +70,7 @@ monthlyBtn.addEventListener('click',()=>{
     displayExpenses('monthly')
 })
 
-//desplaying expenses
+//displaying expenses
 function displayExpenses(limit,page=1,rows=localStorage.getItem('rows')){
     const displayContainer=document.getElementById('displayContainer')
     displayContainer.innerHTML=''
@@ -125,6 +125,59 @@ function displayExpenses(limit,page=1,rows=localStorage.getItem('rows')){
         console.log(err)
     })
 }
+
+//pagination
+function pagination(response){
+    const container=document.getElementById('pagination')
+    const rows=parseInt(localStorage.getItem('rows'));
+    container.innerHTML=`
+    <form> 
+    <label for="rows">Rows Per Page:</label>
+    <select name="rowsPerPage" id="rows" style="width:60px;padding:0px" value="50">
+          <option disabled selected value> ${localStorage.getItem('rows')}</option>
+          <option value=5>5</option>
+          <option value=10>10</option>
+          <option value=25>25</option>
+          <option value=50>50</option>
+   </select>
+   <button type="click" id="rowsPerPage">Submit</button>
+   </form>
+   <br>
+    <span>
+         <button id="firstPage" onclick="displayExpenses(${limit},${1},${rows})">1</button>
+         <button id="previousPage" onclick="displayExpenses(${limit},${response.data.previousPage},${rows})">${response.data.previousPage}</button>
+         <button id="currentPage" onclick="displayExpenses(${limit},${response.data.currentPage},${rows})" class="active">${response.data.currentPage}</button>
+         <button id="nextPage" onclick="displayExpenses(${limit},${response.data.nextPage},${rows})">${response.data.nextPage}</button>
+         <button id="lastPage" onclick="displayExpenses(${limit},${response.data.lastPage},${rows})">${response.data.lastPage}</button>
+    </span>
+    `
+    const firstPage=document.getElementById(`firstPage`);
+    const currentPage=document.getElementById(`currentPage`);
+    const previousPage=document.getElementById(`previousPage`);
+    const nextPage=document.getElementById(`nextPage`);
+    const lastPage=document.getElementById(`lastPage`);
+    if(parseInt(currentPage.innerText)==1)
+    firstPage.style.display='none'
+    if(parseInt(previousPage.innerText)<1 || parseInt(previousPage.innerText)==firstPage.innerText)
+    previousPage.style.display='none'
+    if(parseInt(nextPage.innerText)>parseInt(lastPage.innerText))
+    nextPage.style.display='none'
+    if(parseInt(currentPage.innerText)==parseInt(lastPage.innerText) || parseInt(nextPage.innerText)==parseInt(lastPage.innerText) )
+    lastPage.style.display='none'
+
+    //when rows per page clicked
+    //dynamic pagination
+    const rowsPerPageBtn=document.getElementById('rowsPerPage')
+    rowsPerPageBtn.addEventListener('click',(e)=>{
+    e.preventDefault()
+    localStorage.setItem('rows',document.getElementById('rows').value)
+    displayExpenses()
+
+})
+
+}
+
+
 
 //delete expense
 const displayContainer=document.getElementById('displayContainer')
