@@ -1,11 +1,11 @@
 const AWS=require('aws-sdk')
 
 const uploadToS3=async (fileName,data)=>{
-    const bucketName=`${process.env.bucketName}`
+    const bucketName=`expensetrackerdaytodaydata` //${process.env.bucketName}
     try {
         const s3Bucket= await new AWS.S3({
-            accessKeyId:`${process.env.accessKeyId}`,
-            secretAccessKey: `${process.env.secretAccessKey}`
+            accessKeyId:`AKIA5HFAWTNLEASI6LYG`, //${process.env.accessKeyId}
+            secretAccessKey: `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` //${process.env.secretAccessKey}
             
         })
         const params={

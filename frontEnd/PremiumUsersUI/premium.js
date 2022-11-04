@@ -30,17 +30,18 @@ const form=document.getElementById('expense')
 
 form.addEventListener('submit',(e)=>{
     e.preventDefault()
-    const amount=document.getElementById('amount')
-    const description=document.getElementById('description')
-    const category=document.getElementById('category')
+    const expenseAmt=document.getElementById('amount').value
+    const expenseDes=document.getElementById('description').value
+    const expenseCat=document.getElementById('category').value
     const obj={
-        amount:amount.value,
-        description:description.value,
-        category:category.value
+        amount:expenseAmt,
+        description:expenseDes,
+        category:expenseCat
     }
-    amount.value='';
-    description.value='';
-    category.value='';
+    document.getElementById('amount').value='';
+    document.getElementById('description').value='';
+    document.getElementById('category').value = '';
+    
     axios.post('http://localhost:5000/addExpense',obj,{headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}})
     .then(res=>{
         notifyUser(res.data.message)
@@ -144,11 +145,11 @@ function pagination(response){
    </form>
    <br>
     <span>
-         <button id="firstPage" onclick="displayExpenses(${limit},${1},${rows})">1</button>
-         <button id="previousPage" onclick="displayExpenses(${limit},${response.data.previousPage},${rows})">${response.data.previousPage}</button>
-         <button id="currentPage" onclick="displayExpenses(${limit},${response.data.currentPage},${rows})" class="active">${response.data.currentPage}</button>
-         <button id="nextPage" onclick="displayExpenses(${limit},${response.data.nextPage},${rows})">${response.data.nextPage}</button>
-         <button id="lastPage" onclick="displayExpenses(${limit},${response.data.lastPage},${rows})">${response.data.lastPage}</button>
+         <button id="firstPage" onclick="displayExpenses(${response.limit},${1},${rows})">1</button>
+         <button id="previousPage" onclick="displayExpenses(${response.limit},${response.data.previousPage},${rows})">${response.data.previousPage}</button>
+         <button id="currentPage" onclick="displayExpenses(${response.limit},${response.data.currentPage},${rows})" class="active">${response.data.currentPage}</button>
+         <button id="nextPage" onclick="displayExpenses(${response.limit},${response.data.nextPage},${rows})">${response.data.nextPage}</button>
+         <button id="lastPage" onclick="displayExpenses(${response.limit},${response.data.lastPage},${rows})">${response.data.lastPage}</button>
     </span>
     `
     const firstPage=document.getElementById(`firstPage`);

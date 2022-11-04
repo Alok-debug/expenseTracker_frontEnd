@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 exports.downloadExpense = async (req, res, next) => {
-  try {
+    try {
     const expenses = await UserServices.getExpenses(req);
     const userId = req.user.id;
     const stringified = JSON.stringify(expenses);
@@ -35,10 +35,11 @@ exports.previousDownload = (req, res, next) => {
 };
 
 exports.addExpense = (req, res, next) => {
-  const expenseAmt = req.body.expenseAmt;
-  const expenseDes = req.body.expenseDes;
-  const expenseCat = req.body.expenseCat;
-  req.user
+    const expenseAmt = req.body.amount;
+    const expenseDes = req.body.description;
+    const expenseCat = req.body.category;
+    //console.log(expenseAmt, expenseCat, expenseDes,req.body);
+    req.user
     .createExpense({
       amount: expenseAmt,
       description: expenseDes,
@@ -81,7 +82,7 @@ exports.getExpenses = (req, res, next) => {
   const limit = req.query.limit;
   const page = +req.query.page || 1;
   const rows = +req.query.rows || 10;
-  console.log(page, rows);
+  //console.log(page, rows);
   let totalExpenses;
   let today = new Date();
   let date = new Date("1980-01-01");
@@ -125,7 +126,8 @@ exports.getExpenses = (req, res, next) => {
               hasNextPage: page * rows < totalExpenses,
               previousPage: page - 1,
               nextPage: page + 1,
-              lastPage: Math.ceil(totalExpenses / rows),
+                lastPage: Math.ceil(totalExpenses / rows),
+              limit:limit
             });
         })
         .catch((err) => {
@@ -138,19 +140,19 @@ exports.getExpenses = (req, res, next) => {
     });
 };
 
-exports.getExpense = (req, res, next) => {
-  const expenseId = req.params.expenseId;
-  console.log("get reuest recieved!");
-  req.user
-    .getExpenses({ where: { id: expenseId } })
-    .then((expenses) => {
-      res.status(200).json({ success: true, expenses: expenses[0] });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.json(err);
-    });
-};
+// exports.getExpense = (req, res, next) => {
+//   const expenseId = req.params.expenseId;
+//   console.log("get request recieved!");
+//   req.user
+//     .getExpenses({ where: { id: expenseId } })
+//     .then((expenses) => {
+//       res.status(200).json({ success: true, expenses: expenses[0] });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.json(err);
+//     });
+// };
 
 exports.deleteExpense = (req, res, next) => {
   const expId = req.params.expenseId;

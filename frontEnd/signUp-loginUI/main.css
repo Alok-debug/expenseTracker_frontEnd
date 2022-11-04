@@ -11,10 +11,9 @@ a{
 }
 
 header{
-    background:lightgreen;
+    background:rgb(187, 124, 198);
     min-height: 5rem;
     margin-bottom: 2rem;
-
 }
 
 main{
@@ -26,23 +25,38 @@ main{
 #nav__header{
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding-top: 1.4rem;
 }
 
 .nav__tagName{
-    margin: 0 58% 0 5%;
-    
+    font-size: larger;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.8rem;
+    margin: 0.7rem 40% 0 3%;
+    color: rgba(228, 16, 16, 0.537);
 }
 
 .nav__options{
-    margin-left:5% ;
+    margin-left: 3rem ;
 }
 
 .nav__options a{
     background: none;
-    font-size: 1.4rem;
+    font-weight: 800;
+    font-size: larger;
+}
 
+#prime__i_btn{
+    padding: 0.5rem;
+    font-size: large;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 3px 2px darkred;
+    margin-right: 3rem;
+}
+
+#prime__i_btn:hover{
+    background: black;
+    color: white;
 }
 
 #sign__up{
@@ -51,21 +65,21 @@ main{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 .formInput{
     display: flex;
     flex-direction: column;
     min-height: 90%;
-    padding: 3rem;
+    padding: 1rem;
     border: none;
     border-radius: 10%;
     background-color: lightgray;
 }
 
 .formInput input{
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     border: none;
 
 
@@ -74,7 +88,7 @@ main{
 .form__components{
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 #form__submitbtn{
     align-self: center;
@@ -82,8 +96,8 @@ main{
     width: 12rem;
     background: rebeccapurple;
     border: none;
-    border-radius: 10%;
-    margin-top: 2rem;
+    border-radius: 5px;
+    margin-top: 0.5rem;
     color: white;
     font-size: 1rem;
     font-weight: bolder;

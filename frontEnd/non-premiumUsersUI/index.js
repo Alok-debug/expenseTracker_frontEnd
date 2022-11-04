@@ -41,9 +41,9 @@ form.addEventListener("submit", storeInputToBackend);
 async function storeInputToBackend(e) {
   e.preventDefault();
   var expenseData = {
-    expenseAmt: `${document.getElementById("E_amount").value}`,
-    expenseDes: `${document.getElementById("descript").value}`,
-    expenseCat: `${document.getElementById("exp_cat").value}`,
+    amount: `${document.getElementById("E_amount").value}`,
+    description: `${document.getElementById("descript").value}`,
+    category: `${document.getElementById("exp_cat").value}`,
   };
   try {
     const res = await axios.post(
@@ -69,7 +69,9 @@ function showNewExpenseOnScreen(dataObj) {
   // var ulItem = document.createElement('ul');
 
   const liContent = `<li class="li__items" id="${dataObj.id}"> 
-    ExpenseAmt: ${dataObj.amount}, Expense-Des: ${dataObj.description}, Exp. Category: ${dataObj.category}
+    <h5 class="li__headings">Amount:</h5><h6 class="li__headingValues">${dataObj.amount}</h6>
+    <h5 class="li__headings">Description:</h5><h6 class="li__headingValues">${dataObj.description}</h6>
+    <h5 class="li__headings">Category:</h5><h6 class="li__headingValues">${dataObj.category}</h6>  
     <button class="edit_class edit btnn">ᴇᴅɪᴛ</button>
     <button class="del_class delete btnn">❌</button>
     </li>`;
@@ -85,15 +87,7 @@ function doSomething(e) {
     if (confirm("Are you Sure?")) {
       const deleteRow = async () => {
         try {
-          let response = await axios.post(
-            `http://localhost:5000/deleteExpense/${liId}`,
-            {},
-            {
-              headers: {
-                authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
+          let response = await axios.post(`http://localhost:5000/deleteExpense/${liId}`,{},{headers: {authorization: `Bearer ${localStorage.getItem("token")}`}});
           console.log("delete success");
           console.log(response.data.message);
           e.target.parentElement.remove();
@@ -128,8 +122,8 @@ function doSomething(e) {
   }
 }
 
-// when DOM Content gets loaded;
-async function loadWindow() {
+
+const loadExpensesFromDataBase = async (e) => {
   try {
     const responseFromCloud = await axios.get(
       `http://localhost:5000/getExpenses`,
@@ -142,8 +136,10 @@ async function loadWindow() {
     console.log(err);
   }
 }
+document.getElementById('get__expenses').addEventListener('click', loadExpensesFromDataBase);
 
-window.addEventListener("DOMContentLoaded", loadWindow);
+  
+
 
 //premium
 const premiumBtn = document.getElementById("premium");
@@ -225,9 +221,8 @@ payBtn.addEventListener("click", (e) => {
   e.preventDefault();
 });
 
-// //dark theme icon
-// const toggle = document.getElementById("toggle");
+document.getElementById('logout__btn').addEventListener('click', () => {
+  window.location.href='../signUp-logInUI/login.html'
+  localStorage.removeItem('token');
+})
 
-// toggle.addEventListener("change", (e) => {
-//   document.body.classList.toggle("dark", e.target.checked);
-// });
