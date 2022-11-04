@@ -70,11 +70,11 @@ monthlyBtn.addEventListener('click',()=>{
     displayExpenses('monthly')
 })
 
-//displaying expense
-function displayExpenses(limit){
+//desplaying expenses
+function displayExpenses(limit,page=1,rows=localStorage.getItem('rows')){
     const displayContainer=document.getElementById('displayContainer')
     displayContainer.innerHTML=''
-    axios.get(`http://localhost:5000/getExpenses?limit=${limit}`,{headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}})
+    axios.get(`http://localhost:5000/getExpenses?limit=${limit}&page=${page}&rows=${rows}`,{headers:{'authorization':`Bearer ${localStorage.getItem('token')}`}})
     .then(response=>{
         console.log(response.data.expenses)
         const table=document.createElement('table')
@@ -118,13 +118,13 @@ function displayExpenses(limit){
         table.appendChild(tbody)
         table.appendChild(tfoot)
         displayContainer.appendChild(table)
+        pagination(response)
 
     })
     .catch(err=>{
         console.log(err)
     })
 }
-
 
 //delete expense
 const displayContainer=document.getElementById('displayContainer')

@@ -2,6 +2,7 @@ const Expense = require('../models/expense');
 const query = require('express/lib/middleware/query');
 const UserServices = require('../services/userServices');
 const S3Services = require('../services/s3Services');
+const Op = Sequeli
 
 exports.downloadExpense=async (req,res,next)=>{
     try {
@@ -62,17 +63,62 @@ exports.addExpense = (req, res, next) =>{
 //         .catch(err => console.log(err));
 // }
 
-exports.getExpenses = (req, res, next) => {
-    //console.log('get reuest recieved!');
-    req.user.getExpenses()
-    .then(expenses=>{
-        res.status(200).json({success:true,expenses:expenses})
+
+exports.getExpenses=(req,res,next)=>{
+    const limit=req.query.limit;
+    const page= +req.query.page||1;
+    const rows= +req.query.rows||10;
+    console.log(page,rows)
+    let totalExpenses;
+    let today=new Date();
+    let date=new Date('1980-01-01');
+    if(limit=='weekly'){
+        const todayDateOnly=new Date(today.toDateString())
+        date=new Date(todayDateOnly.setDate(todayDateOnly.getDate()-6))
+    }
+    else if(limit=='daily'){
+        date=new Date(today.toDateString())
+    }
+    else if(limit=='monthly'){
+        date=new Date(today.getFullYear(),today.getMonth(),1)
+    }
+
+    req.user.countExpenses({where:{
+        createdAt : { [Op.and]:[{ [Op.gte] : date },{ [Op.lte] : today }]}
+    }
+    })
+    .then(count=>{
+        totalExpenses=count;
+        req.user.getExpenses({where:{
+            createdAt : { [Op.and]:[{ [Op.gte] : date },{ [Op.lte] : today }]}
+        },
+        order : [['createdAt','DESC']],
+        offset:(page-1)*rows,
+        limit:rows
+        })
+        .then(expenses=>{
+            // const filteredExpenses=expenses.filter((expense)=>{
+            //     return expense.createdAt>=date;
+            // })
+            return res.status(200).json({success:true,expenses:expenses,currentPage:page,hasPreviousPage:page>1,hasNextPage:(page*rows)<totalExpenses,previousPage:page-1,nextPage:page+1,lastPage:Math.ceil(totalExpenses/rows)})
+        })
+        .catch(err=>{
+            throw new Error(err)
+        })
+
     })
     .catch(err=>{
         console.log(err)
         res.json(err)
     })
+
 }
+
+
+
+
+
+
 
 exports.getExpense = (req, res, next) => {
     const expenseId = req.params.expenseId;
