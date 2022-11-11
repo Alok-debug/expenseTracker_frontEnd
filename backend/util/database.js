@@ -1,6 +1,6 @@
 const Sequelize=require('sequelize')
 
-const sequelize= new Sequelize('expensetracker_backend','root','Qwerty@2022',{
+const sequelize= new Sequelize(`${process.env.defaultDB}`,`${process.env.sqlUser}`, `${process.env.sqlPassword}`,{
     dialect:'mysql',
     host:'localhost'
 })
