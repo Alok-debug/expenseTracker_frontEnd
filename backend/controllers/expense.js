@@ -34,49 +34,26 @@ exports.previousDownload = (req, res, next) => {
     });
 };
 
-exports.addExpense = (req, res, next) => {
+exports.addExpense = async(req, res, next) => {
     const expenseAmt = req.body.amount;
     const expenseDes = req.body.description;
     const expenseCat = req.body.category;
     //console.log(expenseAmt, expenseCat, expenseDes,req.body);
-    req.user
-    .createExpense({
+  try {
+    const expense = await req.user.createExpense({
       amount: expenseAmt,
       description: expenseDes,
       category: expenseCat,
     })
-    .then((exp) => {
-      res
-        .status(201)
-        .json({
-          expense: exp,
-          success: true,
-          message: "expense added successfully",
-        });
-    })
-    .catch((err) => {
+    res.status(201).json({ expense: expense, success: true, message: "expense added successfully" });
+  }
+  catch (err) {
       console.log(err);
       res.status(403).json({ success: false, message: "expense not added" });
-    });
+    }
 };
 
-// exports.updateExpense = (req, res, next) => {
-//     const expId = req.params.expenseId;
-//     const expenseAmt = req.body.expenseAmt;
-//     const expenseDes = req.body.expenseDes;
-//     const expenseCat = req.body.expenseCat;
-//     req.user.getExpenses({ where: { id: expId } })
-//         .then(expense => {
-//             expense[0].dataValues.amount = expenseAmt;
-//             expense[0].dataValues.description = expenseDes;
-//             expense[0].dataValues.category = expenseCat;
-//             return Expense.save();
-//         })
-//         .then(() => {
-//             res.status(201).json({success:true, message:"update successfull"})
-//         })
-//         .catch(err => console.log(err));
-// }
+
 
 exports.getExpenses = (req, res, next) => {
   const limit = req.query.limit;

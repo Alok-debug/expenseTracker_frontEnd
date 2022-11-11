@@ -2,7 +2,7 @@ const express=require('express')
 
 const expenseController=require('../controllers/expense')
 
-const authorization=require('../middleware/authorization')
+const authorization = require('../middleware/authorization');
 
 const router=express.Router()
 

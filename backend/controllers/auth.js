@@ -78,11 +78,12 @@ exports.login = async (req, res, next) => {
 
     const token = jwt.sign({ id: user.id }, `${process.env.TOKEN_SECRET}`);
     // console.log("sent token while login: ", token);
-    // console.log("user id is :", user.id);
+    //console.log("user premium? :", user.dataValues.isPremium);
     return res.json({
       token: token,
       email: user.email,
       success: true,
+      isPremium:user.dataValues.isPremium,
       message: "Congratulation!, Successfully logged in",
     });
   } catch (err) {
