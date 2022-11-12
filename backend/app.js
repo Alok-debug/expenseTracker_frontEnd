@@ -1,7 +1,10 @@
+
+const helmet = require('helmet');
+const morgan = require('morgan');
+const express = require('express');
+const app = express();
 const dotenv=require('dotenv')
 dotenv.config()
-const helmet = require('helmet');
-const express = require('express')
 
 
 const path=require('path')
@@ -24,13 +27,17 @@ const forgotPasswordRoutes=require('./routes/forgotPassword')
 
 
 
-const app=express();
+
+
+app.use(helmet());
+app.use(cors());
+app.use(morgan('combined'));
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}))
 
-app.use(helmet());
-app.use(cors());
+
 
 User.hasMany(Expense);
 Expense.belongsTo(User);

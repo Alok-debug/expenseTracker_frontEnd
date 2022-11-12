@@ -5,8 +5,8 @@ const Order=require('../models/order')
 
 exports.premiumOrderGeneration=(req, res, next)=>{
     var instance=new Razorpay({
-        key_id:`${process.env.razorPay_key_id}`,
-        key_secret:`${process.env.razorPay_key_secret}`
+        key_id:process.env.razorPay_key_id,
+        key_secret:process.env.razorPay_key_secret
     })
 
     var options = {
